@@ -1,0 +1,38 @@
+version: "3.8"
+services:
+  db:
+    image: postgres:13
+    restart: unless-stopped
+    networks:
+      - default
+    environment:
+      POSTGRES_PASSWORD: 896699
+      POSTGRES_USER: postgres
+    volumes:
+      - ./db/db-data:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+  productcd:
+    image: productcd:1.0.0
+    restart: unless-stopped
+    build: .
+    networks:
+      - default
+    links:
+      - db:database
+    environment:
+      DB_DRIVER: "org.postgresql.Driver"
+      DB_URL: jdbc:postgresql://database:5432/postgres
+      DB_USER: postgres
+      DB_PASS: 896699
+      SQL_DIALECT: org.hibernate.dialect.PostgreSQL10Dialect
+      SQL_SHOW: "false"
+      SQL_DLL: update
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+networks:
+  default:
+    name: "zerotwobestwaifu"
