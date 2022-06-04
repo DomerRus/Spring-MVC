@@ -35,7 +35,7 @@ public class Product {
     private Integer price; //Поле может быть null, Значение поля должно быть больше 0
     @Column(name = "manufactureCost", nullable = false)
     private Double manufactureCost; //Поле не может быть null
-    @Column(name = "unitOfMeasure", nullable = false)
+    @Column(name = "unitOfMeasure")
     private UnitOfMeasure unitOfMeasure; //Поле может быть null
     @OneToOne
     @JoinColumn(name = "manufacturer_id")

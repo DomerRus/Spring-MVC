@@ -26,7 +26,7 @@ public class Organization {
     @Column(name = "fullName", nullable = false)
     private String fullName; //Длина строки не должна быть больше 1599, Поле не может быть
     @Min(0)
-    @Column(name = "employeesCount", nullable = false)
+    @Column(name = "employeesCount")
     private Long employeesCount; //Значение поля должно быть больше 0
     @Column(name = "type", nullable = false)
     private OrganizationType type; //Поле не может быть

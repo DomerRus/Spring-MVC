@@ -13,7 +13,7 @@ services:
     ports:
       - "5432:5432"
   productcd:
-    image: productcd:1.0.0
+    image: "ityce4ka/spring-mvc:latest"
     restart: unless-stopped
     build: .
     networks:
