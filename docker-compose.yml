@@ -12,6 +12,7 @@ services:
       - ./db/db-data:/var/lib/postgresql/data/
     ports:
       - "5432:5432"
+
   productcd:
     image: "ityce4ka/spring-mvc:latest"
     restart: unless-stopped

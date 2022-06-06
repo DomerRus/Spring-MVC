@@ -1,6 +1,5 @@
 package ru.itmo.product.model;
 
-import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,6 +8,10 @@ import org.hibernate.validator.constraints.Length;
 import ru.itmo.product.model.enums.OrganizationType;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Data
 @AllArgsConstructor
@@ -19,8 +22,10 @@ public class Organization {
     @Id
     //@SequenceGenerator(name="ORGANIZATION_SEQUENCE", sequenceName="SQ_ORGANIZATION_SEQUENCE")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
+    private Integer id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     @Column(name = "name", nullable = false)
+    @NotBlank
+    @NotEmpty
     private String name; //Поле не может быть null, Строка не может быть пустой
     @Length(max = 1599)
     @Column(name = "fullName", nullable = false)
@@ -29,5 +34,6 @@ public class Organization {
     @Column(name = "employeesCount")
     private Long employeesCount; //Значение поля должно быть больше 0
     @Column(name = "type", nullable = false)
+    @Enumerated(EnumType.STRING)
     private OrganizationType type; //Поле не может быть
 }

@@ -17,7 +17,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/products")
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("http://labvm-42-05.itmo-lab.cosm-lab.science")
+//@CrossOrigin("localhost:4200")
 public class ProductController {
 
 
@@ -39,7 +40,7 @@ public class ProductController {
     }
 
     @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) {
+    public ResponseEntity<Product> getProductById(@PathVariable("id") Integer id) {
         return productService.getProduct(id)
                 .map(item -> ResponseEntity.ok().contentType(MediaType.APPLICATION_XML).body(item))
                 .orElse(ResponseEntity.noContent().build());
@@ -60,7 +61,7 @@ public class ProductController {
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<?> deleteProductById(@PathVariable("id") Long id) {
+    public ResponseEntity<?> deleteProductById(@PathVariable("id") Integer id) {
         return ResponseEntity.status(productService.deleteProducts(id)).build();
     }
 
@@ -70,7 +71,7 @@ public class ProductController {
     }
 
     @GetMapping(value = "/measure", produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<?> getCountByManufacture(@RequestParam(name = "manufactureId") Long id){
+    public ResponseEntity<?> getCountByManufacture(@RequestParam(name = "manufactureId") Integer id){
         return ResponseEntity.ok(productService.countByManufactureId(id));
     }
 

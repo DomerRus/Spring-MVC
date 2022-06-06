@@ -11,15 +11,15 @@ public interface ProductService {
 
     Optional<List<Product>> getProducts();
 
-    Optional<Product> getProduct(Long id);
+    Optional<Product> getProduct(Integer id);
 
     Optional<Product> saveProducts(Product product);
 
-    HttpStatus deleteProducts(Long id);
+    HttpStatus deleteProducts(Integer id);
 
     HttpStatus deleteProductsByMeasure(String unit);
 
-    Count countByManufactureId(Long id);
+    Count countByManufactureId(Integer id);
 
     Optional<Product> changeProducts(Product product);
 

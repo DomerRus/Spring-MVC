@@ -15,6 +15,7 @@ import ru.itmo.product.service.ProductService;
 
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Optional<Product> getProduct(Long id) {
+    public Optional<Product> getProduct(Integer id) {
         return productRepository.findById(id);
     }
 
@@ -58,12 +59,13 @@ public class ProductServiceImpl implements ProductService {
                 product.setManufacturer(organization.get());
             }
         }
+        product.setCreationDate(LocalDateTime.now());
         return Optional.of(productRepository.save(product));
     }
 
     @Override
     @Transactional(dontRollbackOn = Exception.class)
-    public HttpStatus deleteProducts(Long id) {
+    public HttpStatus deleteProducts(Integer id) {
         try{
             productRepository.deleteById(id);
             return HttpStatus.OK;
@@ -84,12 +86,27 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Count countByManufactureId(Long id){
+    public Count countByManufactureId(Integer id){
         return new Count(productRepository.findAllByManufacturer_Id(id).size());
     }
 
     @Override
     public Optional<Product> changeProducts(Product product) {
+        coordinatesRepository.save(product.getCoordinates());
+        if(product.getManufacturer() != null) {
+            Optional<Organization> organization =
+                    organizationRepository.findByNameAndFullNameAndAndEmployeesCountAndType(
+                            product.getManufacturer().getName(),
+                            product.getManufacturer().getFullName(),
+                            product.getManufacturer().getEmployeesCount(),
+                            product.getManufacturer().getType());
+            if (organization.isEmpty()) {
+                organizationRepository.save(product.getManufacturer());
+            } else {
+                product.setManufacturer(organization.get());
+            }
+        }
+        product.setCreationDate(productRepository.findById(product.getId()).get().getCreationDate());
         return Optional.of(productRepository.save(product));
     }
 
