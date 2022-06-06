@@ -1,13 +1,13 @@
 package ru.itmo.product.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 
 @Data
 @AllArgsConstructor
@@ -19,7 +19,7 @@ public class Coordinates {
     //@SequenceGenerator(name="COORDINATES_SEQUENCE", sequenceName="SQ_COORDINATES_SEQUENCE")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @JsonIgnore
-    private Long id;
+    private Integer id;
 
     @Column(name = "x")
     private Integer x;
