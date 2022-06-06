@@ -45,16 +45,18 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Optional<Product> saveProducts(Product product) {
         coordinatesRepository.save(product.getCoordinates());
-        Optional<Organization> organization =
-                organizationRepository.findByNameAndFullNameAndAndEmployeesCountAndType(
-                        product.getManufacturer().getName(),
-                        product.getManufacturer().getFullName(),
-                        product.getManufacturer().getEmployeesCount(),
-                        product.getManufacturer().getType());
-        if(organization.isEmpty()) {
-            organizationRepository.save(product.getManufacturer());
-        }else {
-            product.setManufacturer(organization.get());
+        if(product.getManufacturer() != null) {
+            Optional<Organization> organization =
+                    organizationRepository.findByNameAndFullNameAndAndEmployeesCountAndType(
+                            product.getManufacturer().getName(),
+                            product.getManufacturer().getFullName(),
+                            product.getManufacturer().getEmployeesCount(),
+                            product.getManufacturer().getType());
+            if (organization.isEmpty()) {
+                organizationRepository.save(product.getManufacturer());
+            } else {
+                product.setManufacturer(organization.get());
+            }
         }
         return Optional.of(productRepository.save(product));
     }
